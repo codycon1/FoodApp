@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <h4 class="display-4">Enter your delivery details</h4>
+{% endblock %}
+
+{% block content %}
+    <div class="container py-2">
+        <h4>Delivering From</h4>
+        <h3>{{ choice }}</h3>
+    </div>
+    <div class="container py-2">
+        <h4>Delivering To</h4>
+        <h3>{{ address }}</h3>
+    </div>
+    <div class="container py-2">
+        <h4>Delivery Fee</h4>
+        <h3>${{ fee }}</h3>
+    </div>
+    <div class="container py-2">
+        <h4>Mileage Charge</h4>
+        <h3>${{ mileagecharge }}</h3>
+    </div>
+    <div class="container py-2">
+        <h4>Total</h4>
+        <h3>${{ total }}</h3>
+    </div>
+
+    <div class="container py-2">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <input class="form-control" id="{{ field.id_for_label }}" maxlength="30"
+                           name="{{ field.html_name }}"
+                           placeholder="{{ field.label }}" type="{{ field.field.widget.input_type }}"/>
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+
+            <p>Payment Type</p>
+
+            <input id="cash" value="cash" name="charge" type="radio" required>
+            <label for="cash">Cash</label>
+            <br>
+            <input id="card" value="card" name="charge" type="radio">
+            <label for="card">Card</label>
+            <br>
+            <label for="tip">Tip (optional)</label>
+            <input class="form-control" type="number" min="0.00" step="0.01" max="2500" id="tip" name="tip">
+            <br>
+            <button type="submit" class="btn btn-pill btn-wide btn-primary my-2">Place Order</button>
+        </form>
+    </div>
+
+
+
+
+{% endblock %}

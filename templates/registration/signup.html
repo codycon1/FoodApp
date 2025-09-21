@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h4 class="display-4">Sign up</h4>
+    <form method="post">
+        {% csrf_token %}
+
+        {% for field in form %}
+
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <input class="form-control" id="{{ field.id_for_label }}" maxlength="30" name="{{ field.html_name }}"
+                       placeholder="{{ field.label }}" type="{{ field.field.widget.input_type }}"/>
+                {{ field.errors }}
+            </div>
+
+        {% endfor %}
+
+        <input type="checkbox" required="true" id="toscheck">
+        <label for="toscheck">I agree to the <a href="/tos">Terms of Service</a> and <a href="/privacy">Privacy
+            Policy</a></label>
+
+        <div class="g-recaptcha" data-sitekey="6Lf7jx4bAAAAAA1r40woprzwaYZd2d0FBoJUBOxw"></div>
+
+        <button type="submit" class="btn btn-pill btn-wide btn-primary my-2">Sign up</button>
+    </form>
+{% endblock %}

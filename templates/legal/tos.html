@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    
+<!-- SET YOUR STATIC FILES HERE. NOT INCLUDED. -->
+
+<h1>Terms of Service</h1>
+
+    <iframe src="{% static 'documents/terms.pdf' %}" width="90%" height="800px"></iframe>
+
+{% endblock %}

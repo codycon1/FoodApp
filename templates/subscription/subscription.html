@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <h5 class="display-4">Subscription</h5>
+{% endblock %}
+
+{% block content %}
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 px-5 py-5 align-items-stretch">
+                <img class="img-fluid" alt="icon" src="{% static 'icons/008-discount.png' %}">
+                <h4 class="py-3">50% off all delivery fees</h4>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 px-5 py-5 align-items-stretch">
+                <img class="img-fluid" alt="icon" src="{% static 'icons/009-exclusive.png' %}">
+                <h4 class="py-3">Access to exclusive offers</h4>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 px-5 py-5 align-items-stretch">
+                <img class="img-fluid" alt="icon" src="{% static 'icons/010-ticket.png' %}">
+                <h4 class="py-3">Entrance into raffles and giveaways</h4>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    {% now "Y-m-d" as currentdate %}
+    {% if user.is_authenticated and user.premiumValidDate|date:"Y-m-d" >= currentdate %}
+        <div class="container text-center">
+            <h2>My Subscription</h2>
+            <div class="row">
+                <div class="col-sm">
+                    <h4>Your subscription ends on {{ user.premiumValidDate }}</h4>
+                </div>
+            </div>
+        </div>
+        <hr>
+    {% endif %}
+
+
+    <div class="container text-center">
+        <h2>Pricing</h2>
+        <div class="card-deck mb-3 text-center">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">1 Month</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">$10</h1>
+                    <a href="subscribebuy?time=1mo"><button class="btn btn-lg btn-block btn-outline-primary" type="button">Buy now</button></a>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">3 Months</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">$25</h1>
+                    <a href="subscribebuy?time=3mo"><button class="btn btn-lg btn-block btn-outline-primary" type="button">Buy now</button></a>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">6 Months</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title">$40</h1>
+                    <a href="subscribebuy?time=6mo"><button class="btn btn-lg btn-block btn-outline-primary" type="button">Buy now</button></a>
+                </div>
+            </div>
+        </div>
+        {#        <div class="row">#}
+        {#            {% if user.is_authenticated %}#}
+        {#                <div class="col-sm">#}
+        {#                    <a class="btn btn-pill btn-wide btn-outline-dark btn-hover-text-light btn-lg my-2">$10 - 1 month</a>#}
+        {#                </div>#}
+        {#                <div class="col-sm">#}
+        {#                    <a class="btn btn-pill btn-wide btn-outline-dark btn-hover-text-light btn-lg my-2">$25 - 3#}
+        {#                        months</a>#}
+        {#                </div>#}
+        {#                <div class="col-sm">#}
+        {#                    <a class="btn btn-pill btn-wide btn-outline-dark btn-hover-text-light btn-lg my-2">$40 - 6#}
+        {#                        months</a>#}
+        {#                </div>#}
+        {#            {% else %}#}
+        {#                <div class="col-sm">#}
+        {#                    <span class="btn btn-pill btn-wide btn-outline-dark btn-hover-text-light btn-lg my-2">$10 - 1 month</span>#}
+        {#                </div>#}
+        {#                <div class="col-sm">#}
+        {#                    <span class="btn btn-pill btn-wide btn-outline-dark btn-hover-text-light btn-lg my-2">$25 - 3#}
+        {#                        months</span>#}
+        {#                </div>#}
+        {#                <div class="col-sm">#}
+        {#                    <span class="btn btn-pill btn-wide btn-outline-dark btn-hover-text-light btn-lg my-2">$40 - 6#}
+        {#                        months</span>#}
+        {#                </div>#}
+        {#            {% endif %}#}
+    </div>
+    {% if not user.is_authenticated %}
+        <hr>
+        <div class="row">
+            <div class="col-sm">
+                <a href="/registration/login"
+                   class="btn btn-pill btn-wide btn-outline-dark btn-hover-text-light btn-lg my-2">Login</a>
+                <a href="/registration/signup"
+                   class="btn btn-pill btn-wide btn-outline-dark btn-hover-text-light btn-lg my-2">Sign
+                    up</a>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+
+    {#  IF THE USER IS LOGGED IN AND SUBSCRIBED SHOW BENEFITS AND SUBSCRIPTION MANAGEMENT LINK TO STRIPE  #}
+    {#  IF THE USER IS LOGGED IN AND NOT SUBSCRIBED SHOW BENEFITS AND SUBSCRIPTION LINK  #}
+    {#  IF THE USER IS NOT LOGGED IN SHOW BENEFITS AND LOGIN/SIGNUP LINKS  #}
+    {#  context names: subscriber  #}
+{% endblock %}

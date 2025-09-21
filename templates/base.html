@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>FoodApp</title>
+
+    <script src="https://kit.fontawesome.com/6e4ccb89ec.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap4-wizardry.min.css' %}">
+
+
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa|Roboto:300,400" rel="stylesheet">
+
+    <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+
+    {% block head %}
+
+    {% endblock %}
+
+
+</head>
+<body class="ht-body">
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags %}
+            <script>alert("{{ message|escapejs }}")</script> {% endif %}
+
+    {% endfor %}
+
+{% endif %}
+
+<div class="bg-dark navbar-dark text-white px-5">
+    <nav class="navbar px-0 navbar-expand-lg navbar-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a href="/restaurants" class="pl-md-0 p-3 text-white text-decoration-none">Restaurants</a>
+                <a href="/subscribe" class="pl-md-0 p-3 text-white text-decoration-none">Subscription</a>
+                <a href="/hours" class="pl-md-0 p-3 text-white text-decoration-none">Hours</a>
+                {% if user.is_authenticated %}
+                    <a href="/order"
+                       class="pl-md-0 p-3 text-white text-decoration-none">Order Now
+                    </a>
+                    <br>
+                    <a href="/myorders" class="pl-md-0 p-3 text-white text-decoration-none">My Orders</a>
+                    <a href="/registration/profile" class="pl-md-0 p-3 text-white text-decoration-none">Delivery
+                        preferences</a>
+                    <a href="/registration/logout" class="pl-md-0 p-3 text-white text-decoration-none">Logout</a>
+                {% else %}
+                    <a href="/registration/signup" class="pl-md-0 p-3 text-white text-decoration-none">Sign up</a>
+                    <a href="/registration/login" class="pl-md-0 p-3 text-white text-decoration-none">Log in</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="navbar-brand">
+            <a href="/" class="navbar-brand text-decoration-none text-white">FoodApp</a>
+        </div>
+    </nav>
+</div>
+
+{% block jumbotron %}
+
+{% endblock %}
+
+{% now "Y-m-d" as currentdate %}
+{% if user.is_authenticated and user.premiumValidDate|date:"Y-m-d" >= currentdate %}
+    <div class="container text-center my-2 py-2 bg-light rounded">
+
+        <h5>Congratulations, you are a FoodApp premium user!</h5>
+
+    </div>
+{% endif %}
+
+<div class="container-fluid mt-3 pt-1 px-1">
+    {% block title %}
+
+    {% endblock %}
+</div>
+
+<div class="container py-5 my-5 shadow">
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+<footer class="bg-dark text-white">
+    <div class="container">
+        <div class="row ">
+
+            <div class="col text-center align-self-center">
+                <h4>FoodApp, LLC</h4>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col text-center align-self-center">
+                <small><a href="/tos" class="text-white">Terms of Service</a><br></small>
+                <small><a href="/privacy" class="text-white">Privacy Policy</a></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center align-self-center">
+                <small>
+                    Icons made by
+                    <a href="https://www.freepik.com" title="Freepik" class="text-white">Freepik</a>
+                    from <a href="https://www.flaticon.com/" title="Flaticon" class="text-white">www.flaticon.com</a>
+                </small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+{% block extrascripts %}
+
+{% endblock %}
+
+</body>
+</html>

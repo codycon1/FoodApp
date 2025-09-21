@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>SMS Opt-In</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+
+            <div class="form-group">
+                <p>Opt-In to order status notifications via SMS</p>
+                <label for="{{ field.id_for_label }}">By choosing to opt-in to SMS notifications you agree to receive
+                    periodic promotional SMS and MMS messages from GunniGrub. Msg & data rates may apply.</label>
+                <input
+                        class="form-control"
+                        id="{{ field.id_for_label }}"
+                        maxlength="30"
+                        name="{{ field.html_name }}"
+                        placeholder="{{ field.label }}"
+                        autocomplete="off"
+                        {% if field.field.widget.input_type %}
+                        type="{{ field.field.widget.input_type }}"
+                        {% else %}
+                        type="text"
+                        {% endif %}
+
+                />
+                {{ field.errors }}
+            </div>
+
+        {% endfor %}
+        <input type="submit" class="btn btn-pill btn-wide btn-primary my-2" value="Submit"/>
+        <input type="hidden" name="next" value="{{ next }}"/>
+    </form>
+{% endblock %}

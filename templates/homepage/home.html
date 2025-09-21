@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block jumbotron %}
+    <div class="jumbotron bg-wizardry bg-dark text-white mb-0 radius-0">
+        <div class="container">
+            <div class="w-50 p-2">
+                <img src="{% static 'images/logo.png' %}" class="img-fluid" alt="logo">
+            </div>
+
+            <h4 class="display-4 text-light">MOTD!</h4>
+            <div class="mt-4">
+                {% if user.is_authenticated %}
+                    {% if request.user.driver %}
+                        <br>
+                        <a href="/driver"
+                           class="btn btn-pill btn-wide btn-outline-light btn-hover-text-dark btn-lg my-2">
+                            <span>Driver Panel</span>
+                        </a>
+                        <br>
+                    {% endif %}
+
+                    {% if request.user.manager %}
+                        <a href="/manager"
+                           class="btn btn-pill btn-wide btn-outline-light btn-hover-text-dark btn-lg my-2">
+                            <span>Manager Panel</span>
+                        </a>
+                        <br>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+
+
+    <div class="container">
+        <div class="row text-center align-content-center">
+            {% if not user.is_authenticated %}
+                <div class="col-lg-4 col-md-6 col-sm-12 px-5 py-5 align-items-stretch">
+                    <img class="img-fluid" alt="icon" src="{% static 'icons/002-profile.png' %}">
+                    <h4 class="py-3">Log in or Sign Up</h4>
+                    <p>Create your account to place orders, check order status and pay online.</p>
+                </div>
+            {% endif %}
+            <div class="col-lg-4 col-md-6 col-sm-12 px-5 py-5 align-items-stretch">
+                <img class="img-fluid" alt="icon" src="{% static 'icons/003-list.png' %}">
+                <h4 class="py-3">Take a look at our partnered restaurants</h4>
+                <p>Get links to menus and phone numbers for each of our partnered restaurants.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 px-5 py-5 align-items-stretch">
+                <img class="img-fluid" alt="icon" src="{% static 'icons/004-hand-phones.png' %}">
+                <h4 class="py-3">Call to place your order</h4>
+                <p>Call your restaurant of choice to order. Make sure to pay over the phone!</p>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 px-5 py-5 align-items-stretch">
+                <img class="img-fluid" alt="icon" src="{% static 'icons/005-google-forms.png' %}">
+                <h4 class="py-3">Enter your order details</h4>
+                <p>Enter the details for your order, including pick up date, time and location.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 px-5 py-5 align-items-stretch">
+                <img class="img-fluid" alt="icon" src="{% static 'icons/001-credit-card.png' %}">
+                <h4 class="py-3">Pay online for your delivery</h4>
+                <p>Enter your payment information for the delivery charge, or pay with cash upon delivery.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12 px-5 py-5 align-items-stretch">
+                <img class="img-fluid" alt="icon" src="{% static 'icons/007-route.png' %}">
+                <h4 class="py-3">Check your delivery status</h4>
+                <p>Check the status of your delivery online, and enjoy a prompt delivery.</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

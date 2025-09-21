@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1>Add your delivery address</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <input
+                        class="form-control"
+                        id="{{ field.id_for_label }}"
+                        maxlength="30"
+                        name="{{ field.html_name }}"
+                        placeholder="{{ field.label }}"
+                        autocomplete="off"
+                        {% if field.field.widget.input_type %}
+                        type="{{ field.field.widget.input_type }}"
+                        {% else %}
+                        type="text"
+                        {% endif %}
+
+                />
+                {{ field.errors }}
+            </div>
+
+        {% endfor %}
+        <input type="submit" class="btn btn-pill btn-wide btn-primary my-2" value="Next"/>
+        <input type="hidden" name="next" value="{{ next }}"/>
+    </form>
+{% endblock %}

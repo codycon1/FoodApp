@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block jumbotron %}
+    <div class="jumbotron bg-wizardry bg-dark text-white mb-0 radius-0">
+        <div class="container">
+            <div class="w-50 p-2">
+                <img src="{% static 'images/logo.png' %}" class="img-fluid" alt="logo">
+            </div>
+
+            <h4 class="display-4 text-light">MOTD!!</h4>
+            <div class="mt-4">
+                {% if user.is_authenticated %}
+                    {% if request.user.driver %}
+                        <br>
+                        <a href="/driver"
+                           class="btn btn-pill btn-wide btn-outline-light btn-hover-text-dark btn-lg my-2">
+                            <span>Driver Panel</span>
+                        </a>
+                        <br>
+                    {% endif %}
+
+                    {% if request.user.manager %}
+                        <a href="/manager"
+                           class="btn btn-pill btn-wide btn-outline-light btn-hover-text-dark btn-lg my-2">
+                            <span>Manager Panel</span>
+                        </a>
+                        <br>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block title %}
+    <h4 class="display-4">
+        Our Hours
+    </h4>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h1>Monday</h1>
+            </div>
+            <div class="col">
+                <h1>{{ monop }} - {{ moncl }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Tuesday</h1>
+            </div>
+            <div class="col">
+                <h1>{{ tueop }} - {{ tuecl }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Wednesday</h1>
+            </div>
+            <div class="col">
+                <h1>{{ wedop }} - {{ wedcl }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Thursday</h1>
+            </div>
+            <div class="col">
+                <h1>{{ thuop }} - {{ thucl }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Friday</h1>
+            </div>
+            <div class="col">
+                <h1>{{ friop }} - {{ fricl }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Saturday</h1>
+            </div>
+            <div class="col">
+                <h1>{{ satop }} - {{ satcl }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1>Sunday</h1>
+            </div>
+            <div class="col">
+                <h1>{{ sunop }} - {{ suncl }}</h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}

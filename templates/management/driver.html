@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <script>
+        function confirmCancel() {
+            return confirm('Are you sure you want to take this order?');
+        }
+    </script>
+
+    <div class="container">
+
+        <div class="row">
+            <h1>My Orders</h1>
+            <div class="table-responsive">
+                <table class="table">
+                    <th>
+                        Delivery Address
+                    </th>
+                    <th>
+                        Restaurant
+                    </th>
+                    <th>
+                        Pickup Date
+                    </th>
+                    <th>
+                        Pickup Time
+                    </th>
+                    <th>
+                        Placed under
+                    </th>
+                    <th>
+                        Special requests
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    {% for data in myorders %}
+                        <tr>
+                            <td>{{ data.deliveryAddress }}</td>
+                            <td>{{ data.restaurantID }}</td>
+                            <td>{{ data.dateDelivery }}</td>
+                            <td>{{ data.timeDelivery }}</td>
+                            <td>{{ data.name }}</td>
+                            <td>{{ data.specialRequests }}</td>
+                            <td>{{ data.status }}</td>
+                            <td>
+                                <form action="" method="get">
+                                    <input type="hidden" name="id" value="{{ data.id }}">
+                                    <input type="submit" name="Details" value="Details">
+                                </form>
+                                {% if data.status == "Accepted" %}
+                                    <form action="" method="post"
+                                          onsubmit="return confirm('Please confirm: The order is picked up.')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ data.id }}">
+                                        <input type="submit" name="Picked up" value="Picked up">
+                                    </form>
+                                {% endif %}
+                                {% if data.status == "Picked up" %}
+                                    <form action="" method="post"
+                                          onsubmit="return confirm('Please confirm: The order is complete.')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ data.id }}">
+                                        <input type="submit" name="Complete" value="Complete">
+                                    </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        {% if detailview %}
+            <br>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Phone Number</h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ detailview.phone.as_national }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Pickup Address</h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ detailview.restaurantID }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Delivery Address</h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ detailview.deliveryAddress }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Pickup Date</h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ detailview.dateDelivery }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Pickup Time</h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ detailview.timeDelivery }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Order placed under</h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ detailview.name }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Special requests</h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ detailview.specialRequests }}</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Status</h3>
+                </div>
+                <div class="card-body">
+                    <p>{{ detailview.status }}</p>
+                </div>
+                {% if detailview.status == "placed" %}
+                    <form action="" method="post"
+                          onsubmit="return confirm('Please confirm: You are about to assign this order to yourself.')">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ detailview.id }}">
+                        <input type="submit" name="Assign Order" value="Assign">
+                    </form>
+                {% endif %}
+                {% if detailview.status == "Accepted" %}
+                    <form action="" method="post"
+                          onsubmit="return confirm('Please confirm: The order is picked up.')">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ detailview.id }}">
+                        <input type="submit" name="Picked up" value="Picked up">
+                    </form>
+                {% endif %}
+                {% if detailview.status == "Picked up" %}
+                    <form action="" method="post"
+                          onsubmit="return confirm('Please confirm: The order is complete.')">
+                        {% csrf_token %}
+                        <input type="hidden" name="id" value="{{ detailview.id }}">
+                        <input type="submit" name="Complete" value="Complete">
+                    </form>
+                {% endif %}
+            <div class="card">
+                <div class="card-header">
+                    <h3>Charges</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <th>Delivery Charge</th>
+                        <th>Tip</th>
+                        <th>Total</th>
+                        <tr>
+                            <td>{{ detailview.basecharge }}</td>
+                            <td>{{ detailview.tip }}</td>
+                            <td>{{ detailview.totalcharge }}</td>
+                        </tr>
+                    </table>
+                </div>
+            <div class="card-footer">
+                <h4>Payment type:</h4>
+                <h5>{{ detailview.chargetype }}</h5>
+            </div>
+            </div>
+            <br>
+        {% endif %}
+
+        <div class="row">
+            <h1>Open Orders</h1>
+            <div class="table-responsive">
+                <table class="table">
+                    <th>
+                        Delivery Address
+                    </th>
+                    <th>
+                        Pickup Restaurant
+                    </th>
+                    <th>
+                        Pickup Date
+                    </th>
+                    <th>
+                        Pickup Time
+                    </th>
+                    <th>
+                        Placed under
+                    </th>
+                    <th>
+                        Special requests
+                    </th>
+                    <th>
+                        Payment type
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    {% for data in dataset %}
+                        <tr>
+                            <td>{{ data.deliveryAddress }}</td>
+                            <td>{{ data.restaurantID }}</td>
+                            <td>{{ data.dateDelivery }}</td>
+                            <td>{{ data.timeDelivery }}</td>
+                            <td>{{ data.name }}</td>
+                            <td>{{ data.specialRequests }}</td>
+                            <td>{{ data.chargetype }}</td>
+                            <td>{{ data.status }}</td>
+                            <td>
+                                {% if data.status == "placed" %}
+                                    <form action="" method="post"
+                                          onsubmit="return confirm('Please confirm: You are about to assign this order to yourself.')">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="id" value="{{ data.id }}">
+                                        <input type="submit" name="Assign Order" value="Assign">
+                                    </form>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form action="" method="get">
+                                    <input type="hidden" name="id" value="{{ data.id }}">
+                                    <input type="submit" name="Details" value="Details">
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+    </div>
+    </div>
+{% endblock %}
